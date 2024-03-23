@@ -57,52 +57,56 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         title: const Text('dbestech'),
       ),
       body: Center(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 30),
-            Transform(
-              alignment: FractionalOffset.center,
-              transform: Matrix4.identity()
-                ..setEntry(3, 2, 0.0015)
-                ..rotateY(pi * _animation.value),
-              child: Card(
-                child: _animation.value <= 0.5
-                    ? Container(
-                        color: Colors.blue,
-                        width: 240,
-                        height: 300,
-                        child: const Center(
-                          child: Text(
-                            'Flip me',
-                            style: TextStyle(fontSize: 30, color: Colors.white),
+        child: GestureDetector(
+          onTap: () {
+            if (_status == AnimationStatus.dismissed) {
+              _controller.forward();
+            } else {
+              _controller.reverse();
+            }
+          },
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 30),
+              Transform(
+                alignment: FractionalOffset.center,
+                transform: Matrix4.identity()
+                  ..setEntry(3, 2, 0.0015)
+                  ..rotateY(pi * _animation.value),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15.0),
+                    child: _animation.value <= 0.5
+                        ? Container(
+                            color: Colors.blue,
+                            width: 300,
+                            height: 500,
+                            child: const Center(
+                              child: Text(
+                                'Flip me',
+                                style: TextStyle(fontSize: 30, color: Colors.white),
+                              ),
+                            ),
+                          )
+                        : Container(
+                            width: 300,
+                            height: 500,
+                            color: Colors.grey,
+                            //child: Image.network(
+                            //  'https://www.dbestech.com/img/mobile.png',
+                            //  fit: BoxFit.cover,
+                            //),
                           ),
-                        ),
-                      )
-                    : Container(
-                        width: 240,
-                        height: 300,
-                        color: Colors.grey,
-                        child: Image.network(
-                          'https://www.dbestech.com/img/mobile.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                  ),
+                ),
               ),
-            ),
-            // Vertical Flipping
-            const SizedBox(height: 30),
-            ElevatedButton(
-              onPressed: () {
-                if (_status == AnimationStatus.dismissed) {
-                  _controller.forward();
-                } else {
-                  _controller.reverse();
-                }
-              },
-              child: const Text('See inside'),
-            ),
-          ],
+              // Vertical Flipping
+            ],
+          ),
         ),
       ),
     );
