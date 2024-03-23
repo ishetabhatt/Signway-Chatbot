@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <title>Image Slider</title>
+    <style>
+        body { font-family: sans-serif; }
+    
+        .scene {
+          display: inline-block;
+          width: 400px;
+          height: 500px;
+          margin: 40px 0;
+          perspective: 600px;
+        }
+    
+        .card {
+          position: relative;
+          width: 100%;
+          height: 100%;
+          cursor: pointer;
+          transform-style: preserve-3d;
+          transform-origin: center right;
+          transition: transform 1s;
+          border-radius: 10px; /* Rounded edges */
+        }
+    
+        .card.is-flipped {
+          transform: translateX(-100%) rotateY(-180deg);
+        }
+    
+        .card__face {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          color: white;
+          text-align: center;
+          font-weight: bold;
+          font-size: 40px;
+          backface-visibility: hidden;
+          border-radius: 10px; /* Rounded edges */
+        }
+    
+        .card__face--front {
+          background: crimson;
+        }
+    
+        .card__face--back {
+          background: slateblue;
+          transform: rotateY(180deg);
+          font-size: 20px; /* Decreased font size for the back side */
+          line-height: 1.5; /* Adjust line height for better visibility */
+          display: flex; /* Use flexbox */
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+    
+        .flex-container {
+          display: flex;
+        }
+    
+        .flex-child {
+          flex: 1;
+          border: 2px solid yellow;
+        }  
+    
+        .flex-child:first-child {
+          margin-right: 20px;
+        } 
+    
+        .navbar {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 30%;
+          background-color: #33333300;
+          padding: 8px 20px; /* Reduced padding */
+        }
+    
+        .slide img {
+          border-radius: 10px;
+        }
+    
+        .navbar a {
+          text-decoration: none;
+          color: white;
+          margin: 0 10px; /* Reduced margin */
+          font-size: 1em; /* Reduced font size */
+        }
+    
+        .navbar a:hover {
+          color: #5B9C98;
+        }
+    
+        body {
+          font-family: 'Montserrat', sans-serif;
+          margin: 0;
+          padding: 0;
+          background: url('background.jpg') no-repeat center center fixed;
+          background-size: cover;
+          height: 100vh;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          color: white;
+        }
+    
+        #slider-container {
+          position: relative;
+          width: 80%;
+          max-width: 800px;
+          overflow: hidden;
+        }
+    
+        .slide {
+          display: none;
+          width: 100%;
+          text-align: center;
+        }
+    
+        .slide img {
+          width: 100%; /* Make images take up 100% width */
+          max-height: 500px; /* Set a maximum height for the images */
+          object-fit: contain;
+        }
+    
+        .slide-text {
+          font-size: 5em;
+          margin: 10px; /* Adjust margin to create space between image and text */
+          width: 100%;
+          text-align: center;
+          background: linear-gradient(98deg, #008179 -1.36%, #02282b 105.09%);
+          background-clip: text;
+          -webkit-background-clip: text;
+          color: transparent;
+        }
+    
+        #prev, #next {
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 6em;
+          color: rgb(255, 255, 255);
+          background: #f7f75a00;
+          border: none;
+          padding: 10px;
+          cursor: pointer;
+          border-radius: 150px;
+          transition: background 0.3s ease; /* Add transition effect */
+        }
+    
+        #prev:hover, #next:hover {
+          background: #f7f75a73; /* Change background color on hover */
+        }
+    
+        #prev {
+          left: 40px;
+        }
+    
+        #next {
+          right: 10px;
+        }
+    </style>
+    
+    
+</head>
+
+<body>
+    <div class="navbar">
+        <a href="index.html"><img src="home2.png" alt="Go back"></a>
+    </div>
+    <div id="slider-container">
+        <div class="slide">
+            <div class="scene scene--card">
+                <div class="card">
+                    <div class="card__face card__face--front"><img src="sign-a.gif" alt="Letter A"></div>
+                    <div class="card__face card__face--back">Do a thumbs up and touch your thumbs at the tips.</div>
+                </div>
+            </div>
+            <div class="slide-text">A</div>
+        </div>
+
+        <div class="slide">
+            <div class="scene scene--card">
+                <div class="card">
+                    <div class="card__face card__face--front"><img src="sign-b.gif" alt="Letter B"></div>
+                    <div class="card__face card__face--back">Make two circles with your hands and connect them at the tips.</div>
+                </div>
+            </div>
+            <div class="slide-text">B</div>
+        </div>
+        
+        
+        <div class="slide">
+            <div class="scene scene--card">
+                <div class="card">
+                    <div class="card__face card__face--front"><img src="sign-c.gif" alt="Letter C"></div>
+                    <div class="card__face card__face--back">Curve your hand and make a 'C' shape.</div>
+                </div>
+            </div>
+            <div class="slide-text">C</div>
+        </div>
+        
+        <div class="slide">
+            <div class="scene scene--card">
+                <div class="card">
+                    <div class="card__face card__face--front"><img src="sign-d.gif" alt="Letter D"></div>
+                    <div class="card__face card__face--back">Make a C and connect it with your other index finger, pointing up.</div>
+                </div>
+            </div>
+            <div class="slide-text">D</div>
+        </div>
+
+        <!-- Letter E -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-e.gif" alt="Letter E"></div>
+            <div class="card__face card__face--back">Point downwards with your index, middle and ring finger and press your other index finger at the base of the fingers.</div>
+        </div>
+    </div>
+    <div class="slide-text">E</div>
+</div>
+
+<!-- Letter F -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-f.gif" alt="Letter F"></div>
+            <div class="card__face card__face--back">Point downward with both your hands' index and middle fingers and make a cross.</div>
+        </div>
+    </div>
+    <div class="slide-text">F</div>
+</div>
+
+<!-- Letter G -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-g.gif" alt="Letter G"></div>
+            <div class="card__face card__face--back">Close your hands in fists and put them one on top of another.</div>
+        </div>
+    </div>
+    <div class="slide-text">G</div>
+</div>
+
+<!-- Letter H -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-h.gif" alt="Letter H"></div>
+            <div class="card__face card__face--back">Face the palm of one of your hands upwards and swipe the other hand across.</div>
+        </div>
+    </div>
+    <div class="slide-text">H</div>
+</div>
+
+<!-- Letter I -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-i.gif" alt="Letter I"></div>
+            <div class="card__face card__face--back">Point your index finger up and touch its tip with your other index finger.</div>
+        </div>
+    </div>
+    <div class="slide-text">I</div>
+</div>
+
+<!-- Letter J -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-j.gif" alt="Letter J"></div>
+            <div class="card__face card__face--back">Make an 'L' with your thumb and index finger and draw an arc with your other index finger.</div>
+        </div>
+    </div>
+    <div class="slide-text">J</div>
+</div>
+
+
+<!-- For Letter K -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-k.gif" alt="Letter K"></div>
+            <div class="card__face card__face--back">Point your index finger upwards and make a hook with your other index finger, touching your bent finger against the upwards pointing finger.</div>
+        </div>
+    </div>
+    <div class="slide-text">K</div>
+</div>
+
+<!-- For Letter L -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-l.gif" alt="Letter L"></div>
+            <div class="card__face card__face--back">Use your thumb and index finger to make an 'L' shape.</div>
+        </div>
+    </div>
+    <div class="slide-text">L</div>
+</div>
+
+<!-- For Letter M -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-m.gif" alt="Letter M"></div>
+            <div class="card__face card__face--back">Face the palm of one of your hands upwards and press the index, middle and ring finger of your other hand against it.</div>
+        </div>
+    </div>
+    <div class="slide-text">M</div>
+</div>
+
+<!-- For Letter N -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-n.gif" alt="Letter N"></div>
+            <div class="card__face card__face--back">Face the palm of one of your hands upwards and press the index and middle of your other hand against it.</div>
+        </div>
+    </div>
+    <div class="slide-text">N</div>
+</div>
+
+<!-- For Letter O -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-o.gif" alt="Letter O"></div>
+            <div class="card__face card__face--back">Make an 'O' shape with one hand.</div>
+        </div>
+    </div>
+    <div class="slide-text">O</div>
+</div>
+
+<!-- For Letter P -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-p.gif" alt="Letter P"></div>
+            <div class="card__face card__face--back">Point your index finger upwards and use your other thumb and index finger to make a 'P' shape</div>
+        </div>
+    </div>
+    <div class="slide-text">P</div>
+</div>
+
+<!-- For Letter Q -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-q.gif" alt="Letter Q"></div>
+            <div class="card__face card__face--back">Make a circle with your hand and point into it with your other index finger to make a 'Q' shape</div>
+        </div>
+    </div>
+    <div class="slide-text">Q</div>
+</div>
+
+<!-- For Letter R -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-r.gif" alt="Letter R"></div>
+            <div class="card__face card__face--back">Open your palm facing forward and make a hook with your other index finger, pressing its side against your palm</div>
+        </div>
+    </div>
+    <div class="slide-text">R</div>
+</div>
+
+<!-- For Letter S -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-s.gif" alt="Letter S"></div>
+            <div class="card__face card__face--back">Make hooks with your pinky fingers and clasp them together.</div>
+        </div>
+    </div>
+    <div class="slide-text">S</div>
+</div>
+
+       <!-- T -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-t.gif" alt="Letter T"></div>
+            <div class="card__face card__face--back">Use your index fingers to make a 'T' shape.</div>
+        </div>
+    </div>
+    <div class="slide-text">T</div>
+</div>
+
+<!-- U -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-u.gif" alt="Letter U"></div>
+            <div class="card__face card__face--back">Curl your index finger and make a 'U' shape.</div>
+        </div>
+    </div>
+    <div class="slide-text">U</div>
+</div>
+
+<!-- V -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-v.gif" alt="Letter V"></div>
+            <div class="card__face card__face--back">Make a 'V' shape with your index and middle finger.</div>
+        </div>
+    </div>
+    <div class="slide-text">V</div>
+</div>
+
+<!-- W -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-w.gif" alt="Letter W"></div>
+            <div class="card__face card__face--back">Stretch your fingers and interlock them.</div>
+        </div>
+    </div>
+    <div class="slide-text">W</div>
+</div>
+
+<!-- X -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-x.gif" alt="Letter X"></div>
+            <div class="card__face card__face--back">Use your index fingers to make an 'X' shape.</div>
+        </div>
+    </div>
+    <div class="slide-text">X</div>
+</div>
+
+<!-- Y -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-y.gif" alt="Letter Y"></div>
+            <div class="card__face card__face--back">Make a 'V' shape with your thumb and index finger and do a downwards swiping motion with your index finger.</div>
+        </div>
+    </div>
+    <div class="slide-text">Y</div>
+</div>
+
+<!-- Z -->
+<div class="slide">
+    <div class="scene scene--card">
+        <div class="card">
+            <div class="card__face card__face--front"><img src="sign-z.gif" alt="Letter Z"></div>
+            <div class="card__face card__face--back">Open your palms, face one of them towards the side and touch the tips of the other palm perpendicularly.</div>
+        </div>
+    </div>
+    <div class="slide-text">Z</div>
+</div>
+
+        
+        <button id="prev">&lt;</button>
+        <button id="next">&gt;</button>
+    </div>
+
+    <script>
+        var cards = document.querySelectorAll('.card');
+
+        [...cards].forEach((card)=>{
+        card.addEventListener( 'click', function() {
+            card.classList.toggle('is-flipped');
+        });
+        });
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.style.display = i === index ? 'block' : 'none';
+            });
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+            showSlide(currentSlide);
+        }
+
+        document.getElementById('next').addEventListener('click', nextSlide);
+        document.getElementById('prev').addEventListener('click', prevSlide);
+
+        // Show the first slide initially
+        showSlide(currentSlide);
+    </script>
+</body>
+
+</html>
